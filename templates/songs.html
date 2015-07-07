@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Piosenki</title>
+    </head>
+    <body>
+        <h1>Piosenki biorące udział w Muzycznych Bitwach</h1>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Wykonawca</th>
+                <th>Piosenka</th>
+                <th>Link</th>
+                <th></th>
+            </tr>
+
+            {% for song in songs %}
+            <tr>
+                <td>{{ song.id }}</td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.song }}</td>
+                {% if song.link %}
+                <td>[<a href="{{ song.link }}">Link</a>]</td>
+                {% endif %}
+                <td>[<a href="{{ url_for('show_song', id = song.id) }}">Edytuj</a>]</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div id="songs-control">
+            <a href="{{ url_for('new_song') }}">Dodaj piosenkę</a>
+        </div>
+    </body>
+</html>
