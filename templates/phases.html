@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Fazy Muzycznych Bitew{% endblock %}
+
+{% block content %}
+<ul>
+    {% for phase in phases %}
+    <li>Faza <a href="{{ url_for('read_phase', phase_id = phase.id) }}">{{ phase.id }}</a></li>
+    {% else %}
+    <li>
+        Nie istnieje jeszcze żadna faza.
+        <a href="{{ url_for('create_first_phase') }}">Utwórz pierwszą fazę.</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

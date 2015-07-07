@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Bitwa {{ battle.id }}{% endblock %}
+
+{% block content %}
+<h2>Piosenki</h2>
+<ul>
+    <li>{{ battle.song1.id }}. {{ battle.song1.artist }} - {{ battle.song1.song }}</li>
+    <li>{{ battle.song2.id }}. {{ battle.song2.artist }} - {{ battle.song2.song }}</li>
+    <li>{{ battle.song3.id }}. {{ battle.song3.artist }} - {{ battle.song3.song }}</li>
+    <li>{{ battle.song4.id }}. {{ battle.song4.artist }} - {{ battle.song4.song }}</li>
+</ul>
+
+<h2>Akcje</h2>
+<ul>
+    {% if battle.finished %}
+    <li>Bitwa jest zakończona, nie są dostępne żadne akcje.</li>
+    {% elif battle.started %}
+    <li><a href="{{ url_for('finish_battle_form', battle_id = battle.id) }}">Zakończ bitwę</a></li>
+    {% else %}
+    <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
+    {% endif %}
+    <li><a href="{{ url_for('read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>
+</ul>
+{% endblock %}
+

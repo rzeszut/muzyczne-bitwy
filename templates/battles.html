@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Bitwy dla fazy {{ phase.id }}{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Piosenki</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+    {% for battle in phase.battles %}
+    <tr>
+        <td>
+            <p>{{ battle.song1.id }}. {{ battle.song1.artist }} - {{ battle.song1.song }}</p>
+            <p>{{ battle.song2.id }}. {{ battle.song2.artist }} - {{ battle.song2.song }}</p>
+            <p>{{ battle.song3.id }}. {{ battle.song3.artist }} - {{ battle.song3.song }}</p>
+            <p>{{ battle.song4.id }}. {{ battle.song4.artist }} - {{ battle.song4.song }}</p>
+        </td>
+        <td>
+            {% if battle.finished %}
+            Zakończona
+            {% elif battle.started %}
+            Rozpoczęta
+            {% else %}
+            Nierozpoczęta
+            {% endif %}
+        </td>
+        <td>[<a href="{{ url_for('read_battle', battle_id = battle.id) }}">Pokaż</a>]</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="3">
+            Nie istnieją jeszcze bitwy dla tej fazy.
+            <a href="{{ url_for('create_phase_battles', phase_id = phase.id) }}">Wylosuj bitwy</a>.
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+

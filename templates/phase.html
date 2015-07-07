@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Faza {{ phase.id }}{% endblock %}
+
+{% block content %}
+<ul>
+    <li><a href="{{ url_for('read_phase_songs', phase_id = phase.id) }}">Piosenki</a></li>
+    <li><a href="{{ url_for('read_phase_battles', phase_id = phase.id) }}">Bitwy</a></li>
+</ul>
+{% endblock %}

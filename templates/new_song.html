@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Dodaj piosenkę</title>
-    </head>
-    <body>
-        <form action="{{ url_for('create_song') }}" method="post" accept-charset="utf-8">
-            <p><label for="artist">Artysta: </label><input type="text" name="artist" value="" id="artist"></p>
-            <p><label for="song">Piosenka: </label><input type="text" name="song" value="" id="song"></p>
-            <p><label for="link">Link: </label><input type="text" name="link" value="" id="link"></p>
+{% extends "base.html" %}
 
-            <p><input type="submit" value="Dodaj"></p>
-        </form>
-    </body>
-</html>
+{% block title %}Dodaj piosenkę{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('create_song') }}" method="post" accept-charset="utf-8">
+    <p><label for="artist">Artysta: </label><input type="text" name="artist" value="" id="artist"></p>
+    <p><label for="song">Piosenka: </label><input type="text" name="song" value="" id="song"></p>
+    <p><label for="link">Link: </label><input type="text" name="link" value="" id="link"></p>
+
+    <p><input type="submit" value="Dodaj"></p>
+</form>
+{% endblock %}
