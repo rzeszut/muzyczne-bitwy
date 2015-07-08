@@ -17,6 +17,7 @@ def create_first_phase():
     db.session.add(phase)
     db.session.commit()
 
+    flash('Pierwsza faza została utworzona.', 'success')
     return redirect(url_for('read_phases'))
 
 @app.route('/phase/<int:phase_id>')
@@ -50,6 +51,7 @@ def create_phase_battles(phase_id):
     db.session.add(phase)
     db.session.commit()
 
+    flash('Bitwy dla fazy {} zostały utworzone.'.format(phase_id), 'success')
     return redirect(url_for('read_phase_battles', phase_id = phase_id))
 
 def partition(l, n):

@@ -24,6 +24,7 @@ def update_song(song_id):
     db.session.add(song)
     db.session.commit()
 
+    flash('Piosenka została zapisana.', 'success')
     return redirect(url_for('read_songs'))
 
 def empty_to_none(s):
@@ -41,5 +42,6 @@ def create_song():
     db.session.add(song)
     db.session.commit()
 
+    flash('Piosenka została utworzona.', 'success')
     return redirect(url_for('read_songs'))
 
