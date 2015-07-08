@@ -32,6 +32,10 @@ class Battle(db.Model):
     phase = db.relationship('Phase', foreign_keys = phase_id, \
                             backref = db.backref('battles'))
 
+    @property
+    def songs(self):
+        return [self.song1, self.song2, self.song3, self.song4]
+
 phase_songs = db.Table('phase_songs',
     db.Column('song_id', db.ForeignKey('song.id')),
     db.Column('phase_id', db.ForeignKey('phase.id'))
@@ -44,7 +48,8 @@ class Phase(db.Model):
 
     songs = db.relationship('Song', secondary = phase_songs)
 
-    def get_next_phase(self):
+    @property
+    def next_phase(self):
         next_phase = Phase.query.get(self.id + 1)
         if next_phase is None:
             next_phase = Phase()

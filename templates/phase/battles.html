@@ -4,7 +4,7 @@
 {% block title %}Bitwy dla fazy {{ phase.id }}{% endblock %}
 
 {% block content %}
-<table>
+<table class="table table-striped">
     <tr>
         <th>Piosenki</th>
         <th>Status</th>
@@ -14,10 +14,9 @@
     {% for battle in phase.battles %}
     <tr>
         <td>
-            <p>{{ macros.render_song(battle.song1, with_number = True) }}</p>
-            <p>{{ macros.render_song(battle.song2, with_number = True) }}</p>
-            <p>{{ macros.render_song(battle.song3, with_number = True) }}</p>
-            <p>{{ macros.render_song(battle.song4, with_number = True) }}</p>
+            {% for song in battle.songs %}
+            <p>{{ macros.render_song(song, with_number = True) }}</p>
+            {% endfor %}
         </td>
         <td>
             {% if battle.finished %}
@@ -39,9 +38,8 @@
     </tr>
     {% endfor %}
 </table>
-
-<ul>
-    <li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Powrót</a></li>
-</ul>
 {% endblock %}
 
+{% block controls %}
+    <li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Powrót</a></li>
+{% endblock %}

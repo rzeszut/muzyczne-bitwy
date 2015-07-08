@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Edytuj piosenkę {{ song.artist }} &ndash; {{ song.song }}{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('update_song', song_id = song.id) }}" method="post" accept-charset="utf-8" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="id">Id:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="id" value="{{ song.id }}" id="id" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="artist">Artysta:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="artist" value="{{ song.artist }}" id="artist">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="song">Piosenka:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="song" value="{{ song.song }}" id="song">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="link">Link:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="link" value="{% if song.link %}{{ song.link }}{% endif %}" id="link">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            <input class="btn btn-default" type="submit" value="Zapisz">
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block controls %}
+    <li><a href="{{ url_for('read_songs') }}">Wszystkie piosenki</a></li>
+{% endblock %}
+

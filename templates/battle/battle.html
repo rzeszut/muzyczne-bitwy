@@ -4,6 +4,10 @@
 {% block title %}Bitwa {{ battle.id }}{% endblock %}
 
 {% block content %}
+<h2>Piosenki</h2>
+{% set songs = battle.songs %}
+{% include "include/song_list.html" %}
+
 <h2>Bitwa &ndash; zawartość posta</h2>
 <h3>Temat</h3>
 <pre>
@@ -13,25 +17,21 @@ Bitwa: {{ battle.song1_id }} {{ battle.song2_id }} {{ battle.song3_id }} {{ batt
 <h3>Post</h3>
 <pre>
 Piosenki uczestniczące w bitwie:
-
-{{ macros.render_song(battle.song1, with_number = True, with_link = True) }}
-{{ macros.render_song(battle.song2, with_number = True, with_link = True) }}
-{{ macros.render_song(battle.song3, with_number = True, with_link = True) }}
-{{ macros.render_song(battle.song4, with_number = True, with_link = True) }}
+{% for song in songs %}
+{{ macros.render_song(song, with_number = True, with_link = True) }}
+{%- endfor %}
 </pre>
 
 <h3>Ankieta</h3>
 <pre>
 Wybierz max. 2 z 4 piosenek:
-
-{{ macros.render_song(battle.song1) }}
-{{ macros.render_song(battle.song2) }}
-{{ macros.render_song(battle.song3) }}
-{{ macros.render_song(battle.song4) }}
+{% for song in songs %}
+{{ macros.render_song(song) }}
+{%- endfor %}
 </pre>
+{% endblock %}
 
-<h2>Akcje</h2>
-<ul>
+{% block controls %}
     {% if battle.finished %}
     <li>Bitwa jest zakończona, nie są dostępne żadne akcje.</li>
     {% elif battle.started %}
@@ -39,8 +39,7 @@ Wybierz max. 2 z 4 piosenek:
     {% else %}
     <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
     {% endif %}
-    <li><a href="{{ url_for('read_battle_songs', battle_id = battle.id) }}">Piosenki w bitwie</a></li>
+
     <li><a href="{{ url_for('read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>
-</ul>
 {% endblock %}
 

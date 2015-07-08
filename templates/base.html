@@ -3,12 +3,36 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>{% block title %}{% endblock %}</title>
+        <title>Muzyczne Bitwy &ndash; {% block title %}{% endblock %}</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css') }}" type="text/css" charset="utf-8">
     </head>
     <body>
-        <h1>{{ self.title() }}</h1>
-        {% block content %}
-        {% endblock %}
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <a href="{{ url_for('index') }}" class="navbar-brand">Muzyczne Bitwy</a>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        {% block controls %}
+                        {% endblock %}
+                    </ul>
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    <h1>{{ self.title() }}</h1>
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </body>
 </html>
 

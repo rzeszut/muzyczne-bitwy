@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj piosenkę{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('create_song') }}" method="post" accept-charset="utf-8" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="artist">Artysta:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="artist" value="" id="artist">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="song">Piosenka:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="song" value="" id="song">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="link">Link:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="link" value="" id="link">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            <input class="btn btn-default" type="submit" value="Zapisz">
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block controls %}
+    <li><a href="{{ url_for('read_songs') }}">Powrót</a></li>
+{% endblock %}

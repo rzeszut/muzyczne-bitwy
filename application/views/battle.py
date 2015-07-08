@@ -6,14 +6,7 @@ from application.database import Song, Battle, db
 @app.route('/battle/<int:battle_id>')
 def read_battle(battle_id):
     battle = Battle.query.get(battle_id)
-    return render_template('battle.html', battle = battle)
-
-@app.route('/battle/<int:battle_id>/songs')
-def read_battle_songs(battle_id):
-    battle = Battle.query.get(battle_id)
-    songs = [battle.song1, battle.song2, battle.song3, battle.song4]
-    return render_template('songs.html', songs = songs, \
-                           show_controls = False)
+    return render_template('battle/battle.html', battle = battle)
 
 @app.route('/battle/<int:battle_id>/start')
 def start_battle(battle_id):
@@ -28,7 +21,7 @@ def start_battle(battle_id):
 @app.route('/battle/<int:battle_id>/finish', methods = ['GET'])
 def finish_battle_form(battle_id):
     battle = Battle.query.get(battle_id)
-    return render_template('finish_battle.html', battle = battle)
+    return render_template('battle/finish_battle.html', battle = battle)
 
 @app.route('/battle/<int:battle_id>/finish', methods = ['POST'])
 def finish_battle(battle_id):
@@ -41,7 +34,7 @@ def finish_battle(battle_id):
     db.session.add(battle)
 
     winner_songs = Song.query.filter(Song.id.in_(winner_song_ids)).all()
-    next_phase = battle.phase.get_next_phase()
+    next_phase = battle.phase.next_phase
     next_phase.songs.extend(winner_songs)
     db.session.add(next_phase)
 

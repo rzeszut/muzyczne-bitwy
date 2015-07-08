@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+
+{% block title %}Zakończ bitwę {{ battle.id }}{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('finish_battle', battle_id = battle.id)}}" method="post" accept-charset="utf-8" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="songs">Wybierz 2 piosenki:</label>
+        <div class="col-md-10">
+            <select class="form-control" name="songs" id="songs" multiple>
+                <option value="{{ battle.song1_id }}">{{ macros.render_song(battle.song1, with_number = True) }}</option>
+                <option value="{{ battle.song2_id }}">{{ macros.render_song(battle.song2, with_number = True) }}</option>
+                <option value="{{ battle.song3_id }}">{{ macros.render_song(battle.song3, with_number = True) }}</option>
+                <option value="{{ battle.song4_id }}">{{ macros.render_song(battle.song4, with_number = True) }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            <input class="btn btn-default" type="submit" value="Zakończ">
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block controls %}
+    <li><a href="{{ url_for('read_battle', battle_id = battle.id) }}">Powrót</a></li>
+{% endblock %}
