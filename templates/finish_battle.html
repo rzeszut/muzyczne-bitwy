@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 
 {% block title %}Zakończ bitwę {{ battle.id }}{% endblock %}
 
 {% block content %}
 <form action="{{ url_for('finish_battle', battle_id = battle.id)}}" method="post" accept-charset="utf-8">
     <select name="songs" id="songs" multiple>
-        <option value="{{ battle.song1_id }}">{{ battle.song1_id }}. {{ battle.song1.artist }} - {{ battle.song1.song }}</option>
-        <option value="{{ battle.song2_id }}">{{ battle.song2_id }}. {{ battle.song2.artist }} - {{ battle.song2.song }}</option>
-        <option value="{{ battle.song3_id }}">{{ battle.song3_id }}. {{ battle.song3.artist }} - {{ battle.song3.song }}</option>
-        <option value="{{ battle.song4_id }}">{{ battle.song4_id }}. {{ battle.song4.artist }} - {{ battle.song4.song }}</option>
+        <option value="{{ battle.song1_id }}">{{ macros.render_song(battle.song1, with_number = True) }}</option>
+        <option value="{{ battle.song2_id }}">{{ macros.render_song(battle.song2, with_number = True) }}</option>
+        <option value="{{ battle.song3_id }}">{{ macros.render_song(battle.song3, with_number = True) }}</option>
+        <option value="{{ battle.song4_id }}">{{ macros.render_song(battle.song4, with_number = True) }}</option>
     </select>
 
     <p><input type="submit" value="Zakończ"></p>

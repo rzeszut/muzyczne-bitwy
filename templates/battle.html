@@ -1,15 +1,34 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 
 {% block title %}Bitwa {{ battle.id }}{% endblock %}
 
 {% block content %}
-<h2>Piosenki</h2>
-<ul>
-    <li>{{ battle.song1.id }}. {{ battle.song1.artist }} - {{ battle.song1.song }}</li>
-    <li>{{ battle.song2.id }}. {{ battle.song2.artist }} - {{ battle.song2.song }}</li>
-    <li>{{ battle.song3.id }}. {{ battle.song3.artist }} - {{ battle.song3.song }}</li>
-    <li>{{ battle.song4.id }}. {{ battle.song4.artist }} - {{ battle.song4.song }}</li>
-</ul>
+<h2>Bitwa &ndash; zawartość posta</h2>
+<h3>Temat</h3>
+<pre>
+Bitwa: {{ battle.song1_id }} {{ battle.song2_id }} {{ battle.song3_id }} {{ battle.song4_id }}
+</pre>
+
+<h3>Post</h3>
+<pre>
+Piosenki uczestniczące w bitwie:
+
+{{ macros.render_song(battle.song1, with_number = True, with_link = True) }}
+{{ macros.render_song(battle.song2, with_number = True, with_link = True) }}
+{{ macros.render_song(battle.song3, with_number = True, with_link = True) }}
+{{ macros.render_song(battle.song4, with_number = True, with_link = True) }}
+</pre>
+
+<h3>Ankieta</h3>
+<pre>
+Wybierz max. 2 z 4 piosenek:
+
+{{ macros.render_song(battle.song1) }}
+{{ macros.render_song(battle.song2) }}
+{{ macros.render_song(battle.song3) }}
+{{ macros.render_song(battle.song4) }}
+</pre>
 
 <h2>Akcje</h2>
 <ul>
@@ -20,6 +39,7 @@
     {% else %}
     <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
     {% endif %}
+    <li><a href="{{ url_for('read_battle_songs', battle_id = battle.id) }}">Piosenki w bitwie</a></li>
     <li><a href="{{ url_for('read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>
 </ul>
 {% endblock %}

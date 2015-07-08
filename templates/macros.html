@@ -1,0 +1,4 @@
+{% macro render_song(song, with_number = False, with_link = False) -%}
+{%- if with_number %}{{ song.id }}. {%- endif %} {{ song.artist }} - {{ song.song }}{%- if with_link and song.link %} [[url={{ song.link }}]link[/url]]{%- endif %}
+{%- endmacro %}
+

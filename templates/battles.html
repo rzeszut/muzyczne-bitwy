@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 
 {% block title %}Bitwy dla fazy {{ phase.id }}{% endblock %}
 
@@ -13,10 +14,10 @@
     {% for battle in phase.battles %}
     <tr>
         <td>
-            <p>{{ battle.song1.id }}. {{ battle.song1.artist }} - {{ battle.song1.song }}</p>
-            <p>{{ battle.song2.id }}. {{ battle.song2.artist }} - {{ battle.song2.song }}</p>
-            <p>{{ battle.song3.id }}. {{ battle.song3.artist }} - {{ battle.song3.song }}</p>
-            <p>{{ battle.song4.id }}. {{ battle.song4.artist }} - {{ battle.song4.song }}</p>
+            <p>{{ macros.render_song(battle.song1, with_number = True) }}</p>
+            <p>{{ macros.render_song(battle.song2, with_number = True) }}</p>
+            <p>{{ macros.render_song(battle.song3, with_number = True) }}</p>
+            <p>{{ macros.render_song(battle.song4, with_number = True) }}</p>
         </td>
         <td>
             {% if battle.finished %}
@@ -38,5 +39,9 @@
     </tr>
     {% endfor %}
 </table>
+
+<ul>
+    <li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Powrót</a></li>
+</ul>
 {% endblock %}
 

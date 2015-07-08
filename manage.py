@@ -1,6 +1,7 @@
 #! venv/bin/python3
 
 from flask.ext.script import Manager
+
 from application import app
 from application.database import db
 

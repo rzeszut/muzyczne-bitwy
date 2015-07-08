@@ -26,9 +26,9 @@
 </table>
 
 {% if show_controls %}
-<div id="songs-controls">
-    <a href="{{ url_for('create_song_form') }}">Dodaj piosenkę</a>
-</div>
+<ul>
+    <li><a href="{{ url_for('create_song_form') }}">Dodaj piosenkę</a></li>
+</ul>
 {% endif %}
 {% endblock %}
 

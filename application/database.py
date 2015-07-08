@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+
 from application import app
 
 db = SQLAlchemy(app)
@@ -15,10 +16,10 @@ class Battle(db.Model):
     __table_args__ = {'sqlite_autoincrement': True}
 
     id = db.Column(db.Integer, primary_key = True, nullable = False)
-    song1_id = db.Column(db.ForeignKey(Song.id), nullable = False)
-    song2_id = db.Column(db.ForeignKey(Song.id), nullable = False)
-    song3_id = db.Column(db.ForeignKey(Song.id), nullable = False)
-    song4_id = db.Column(db.ForeignKey(Song.id), nullable = False)
+    song1_id = db.Column(db.ForeignKey('song.id'), nullable = False)
+    song2_id = db.Column(db.ForeignKey('song.id'), nullable = False)
+    song3_id = db.Column(db.ForeignKey('song.id'), nullable = False)
+    song4_id = db.Column(db.ForeignKey('song.id'), nullable = False)
     phase_id = db.Column(db.ForeignKey('phase.id'), nullable = False)
 
     started = db.Column(db.Boolean, nullable = False, default = False)
@@ -41,8 +42,7 @@ class Phase(db.Model):
 
     id = db.Column(db.Integer, primary_key = True, nullable = False)
 
-    songs = db.relationship('Song', secondary = phase_songs, \
-                            backref = db.backref('songs'))
+    songs = db.relationship('Song', secondary = phase_songs)
 
     def get_next_phase(self):
         next_phase = Phase.query.get(self.id + 1)
@@ -50,5 +50,4 @@ class Phase(db.Model):
             next_phase = Phase()
             db.session.add(next_phase)
         return next_phase
-
 
