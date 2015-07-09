@@ -2,14 +2,18 @@
 
 {% block title %}Fazy Muzycznych Bitew{% endblock %}
 
+{% block content %}
+{% if not phases %}
+<p>
+    Nie istnieje jeszcze żadna faza.
+    <a href="{{ url_for('create_first_phase') }}">Utwórz pierwszą fazę.</a>
+</p>
+{% endif %}
+{% endblock %}
+
 {% block controls %}
 {% for phase in phases %}
 <li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Faza {{ phase.id }}</a></li>
-{% else %}
-<li>
-    Nie istnieje jeszcze żadna faza.
-    <a href="{{ url_for('create_first_phase') }}">Utwórz pierwszą fazę.</a>
-</li>
 {% endfor %}
 <li><a href="{{ url_for('index') }}">Powrót</a></li>
 {% endblock %}

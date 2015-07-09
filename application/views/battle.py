@@ -11,7 +11,7 @@ def read_battle(battle_id):
 @app.route('/battle/<int:battle_id>/start')
 def start_battle(battle_id):
     battle = Battle.query.get(battle_id)
-    battle.started = True
+    battle.start()
 
     db.session.add(battle)
     db.session.commit()
@@ -32,7 +32,7 @@ def finish_battle(battle_id):
         return redirect(url_for('finish_battle_form', battle_id = battle_id))
 
     battle = Battle.query.get(battle_id)
-    battle.finished = True
+    battle.finish()
     db.session.add(battle)
 
     winner_songs = Song.query.filter(Song.id.in_(winner_song_ids)).all()

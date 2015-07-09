@@ -15,6 +15,12 @@ class Song(db.Model):
 class Battle(db.Model):
     __table_args__ = {'sqlite_autoincrement': True}
 
+    __NOT_STARTED = 0
+    __STARTED = 1
+    __FINISHED = 2
+    __CHECK_CONDITION = 'state IN ({})'.format( \
+        ', '.join(map(str, [__NOT_STARTED, __STARTED, __FINISHED])))
+
     id = db.Column(db.Integer, primary_key = True, nullable = False)
     song1_id = db.Column(db.ForeignKey('song.id'), nullable = False)
     song2_id = db.Column(db.ForeignKey('song.id'), nullable = False)
@@ -22,8 +28,9 @@ class Battle(db.Model):
     song4_id = db.Column(db.ForeignKey('song.id'), nullable = False)
     phase_id = db.Column(db.ForeignKey('phase.id'), nullable = False)
 
-    started = db.Column(db.Boolean, nullable = False, default = False)
-    finished = db.Column(db.Boolean, nullable = False, default = False)
+    state = db.Column(db.Integer, \
+                      db.CheckConstraint(__CHECK_CONDITION), \
+                      nullable = False, default = __NOT_STARTED)
 
     song1 = db.relationship('Song', foreign_keys = song1_id)
     song2 = db.relationship('Song', foreign_keys = song2_id)
@@ -36,9 +43,23 @@ class Battle(db.Model):
     def songs(self):
         return [self.song1, self.song2, self.song3, self.song4]
 
+    @property
+    def started(self):
+        return self.state == self.__STARTED
+
+    @property
+    def finished(self):
+        return self.state == self.__FINISHED
+
+    def start(self):
+        self.state = self.__STARTED
+
+    def finish(self):
+        self.state = self.__FINISHED
+
 phase_songs = db.Table('phase_songs',
-    db.Column('song_id', db.ForeignKey('song.id')),
-    db.Column('phase_id', db.ForeignKey('phase.id'))
+    db.Column('song_id', db.ForeignKey('song.id'), nullable = False),
+    db.Column('phase_id', db.ForeignKey('phase.id'), nullable = False)
 )
 
 class Phase(db.Model):
