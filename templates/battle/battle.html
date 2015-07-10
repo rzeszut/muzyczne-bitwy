@@ -8,10 +8,11 @@
 {% set songs = battle.songs %}
 {% include "include/song_list.html" %}
 
+{% if battle.started %}
 <h2>Bitwa &ndash; zawartość posta</h2>
 <h3>Temat</h3>
 <pre>
-Bitwa: {{ battle.song1_id }} {{ battle.song2_id }} {{ battle.song3_id }} {{ battle.song4_id }}
+Bitwa {{ battle.id }}: {{ format_date(battle.start_date) }} - {{ format_date(battle.finish_date) }}
 </pre>
 
 <h3>Post</h3>
@@ -29,6 +30,8 @@ Wybierz max. 2 z 4 piosenek:
 {{ macros.render_song(song) }}
 {%- endfor %}
 </pre>
+{% endif %}
+
 {% endblock %}
 
 {% block controls %}

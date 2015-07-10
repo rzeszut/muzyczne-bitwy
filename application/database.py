@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from datetime import date, timedelta
 
 from application import app
 
@@ -31,6 +32,7 @@ class Battle(db.Model):
     state = db.Column(db.Integer, \
                       db.CheckConstraint(__CHECK_CONDITION), \
                       nullable = False, default = __NOT_STARTED)
+    start_date = db.Column(db.Date)
 
     song1 = db.relationship('Song', foreign_keys = song1_id)
     song2 = db.relationship('Song', foreign_keys = song2_id)
@@ -51,8 +53,13 @@ class Battle(db.Model):
     def finished(self):
         return self.state == self.__FINISHED
 
+    @property
+    def finish_date(self):
+        return self.start_date + timedelta(days = 7)
+
     def start(self):
         self.state = self.__STARTED
+        self.start_date = date.today()
 
     def finish(self):
         self.state = self.__FINISHED

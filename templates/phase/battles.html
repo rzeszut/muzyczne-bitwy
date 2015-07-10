@@ -22,7 +22,7 @@
             {% if battle.finished %}
             Zakończona
             {% elif battle.started %}
-            Rozpoczęta
+            Rozpoczęta ({{ format_date(battle.start_date) }} &ndash; {{ format_date(battle.finish_date) }})
             {% else %}
             Nierozpoczęta
             {% endif %}
