@@ -10,8 +10,8 @@ def read_phases():
     phases = Phase.query.all()
     return render_template('phase/phases.html', phases = phases)
 
-@transactional
 @phases.route('/phase/create')
+@transactional
 def create_first_phase():
     phase = Phase()
     phase.songs = Song.query.all()
@@ -37,8 +37,8 @@ def read_phase_battles(phase_id):
     phase = Phase.query.get(phase_id)
     return render_template('phase/battles.html', phase = phase)
 
-@transactional
 @phases.route('/phase/<int:phase_id>/battles/create')
+@transactional
 def create_phase_battles(phase_id):
     phase = Phase.query.get(phase_id)
 

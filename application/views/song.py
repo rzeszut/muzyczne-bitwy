@@ -15,8 +15,8 @@ def read_song(song_id):
     song = Song.query.get(song_id)
     return render_template('song/edit_song.html', song = song)
 
-@transactional
 @songs.route('/song/<int:song_id>', methods = ['POST'])
+@transactional
 def update_song(song_id):
     song = Song.query.get(song_id)
     song.artist = request.form['artist']
@@ -34,8 +34,8 @@ def empty_to_none(s):
 def create_song_form():
     return render_template('song/new_song.html')
 
-@transactional
 @songs.route('/song', methods = ['POST'])
+@transactional
 def create_song():
     song = Song(artist = request.form['artist'], \
                 song = request.form['song'], \

@@ -7,7 +7,6 @@ db = SQLAlchemy()
 def transactional(f):
     @wraps(f)
     def call_in_transaction(*args, **kwargs):
-        db.session.begin(subtransactions = True)
         try:
             ret = f(*args, **kwargs)
             db.session.commit()
@@ -47,7 +46,7 @@ class Battle(db.Model):
                       nullable = False, default = __NOT_STARTED)
     start_date = db.Column(db.Date)
 
-    songs = db.relationship('Song', secondary = battle_songs)
+    songs = db.relationship('Song', secondary = battle_songs, order_by = Song.id)
     phase = db.relationship('Phase', foreign_keys = phase_id, \
                             backref = db.backref('battles'))
 

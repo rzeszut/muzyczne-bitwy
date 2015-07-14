@@ -11,8 +11,8 @@ def read_battle(battle_id):
     battle = Battle.query.get(battle_id)
     return render_template('battle/battle.html', battle = battle)
 
-@transactional
 @battles.route('/battle/<int:battle_id>/start')
+@transactional
 def start_battle(battle_id):
     battle = Battle.query.get(battle_id)
     battle.start()
@@ -26,16 +26,16 @@ def finish_battle_form(battle_id):
     battle = Battle.query.get(battle_id)
     return render_template('battle/finish_battle.html', battle = battle)
 
-@transactional
 @battles.route('/battle/<int:battle_id>/finish', methods = ['POST'])
+@transactional
 def finish_battle(battle_id):
     winners_count = int(request.form['winners'])
-    song_ids = request.form.getlist('songs')
-    song_points = request.form.getlist('points')
+    song_ids = map(int, request.form.getlist('songs'))
+    song_points = map(int, request.form.getlist('points'))
 
     songs = sorted(shuffled(zip(song_ids, song_points)), \
                    key = itemgetter(1), reverse = True)
-    winner_song_ids = list(map(songs[:winners_count], itemgetter(0)))
+    winner_song_ids = list(map(itemgetter(0), songs[:winners_count]))
 
     battle = Battle.query.get(battle_id)
     battle.finish()
