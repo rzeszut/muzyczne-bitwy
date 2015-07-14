@@ -44,9 +44,9 @@ def create_phase_battles(phase_id):
     songs = random.shuffle(list(phase.songs))
     for battle_songs in partition(songs, 4):
         if len(battle_songs) == 4:
-            create_battle(phase, *battle_songs)
+            create_battle(phase, battle_songs)
         else:
-            add_songs_to_next_phase(phase.next_phase, battle_songs)
+            extend_battles(phase.battles, battle_songs)
 
     db.session.add(phase)
     db.session.commit()
@@ -58,14 +58,12 @@ def partition(l, n):
     for i in xrange(0, len(l), n):
         yield l[i : i + n]
 
-def create_battle(phase, song1, song2, song3, song4):
-    battle = Battle(song1 = song1, song2 = song2, song3 = song3, \
-                    song4 = song4, phase = phase)
+def create_battle(phase, songs):
+    battle = Battle(songs = songs, phase = phase)
     phase.battles.append(battle)
 
-    db.session.add(battle)
-
-def add_songs_to_next_phase(phase, songs):
-    phase.songs.extend(songs)
-    db.session.add(phase)
+def extend_battles(battles, songs):
+    battles_count = len(battles)
+    for i, song in enumerate(songs):
+        battles[i % battles_count].songs.append(song)
 

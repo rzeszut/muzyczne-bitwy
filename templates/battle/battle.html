@@ -8,7 +8,7 @@
 {% set songs = battle.songs %}
 {% include "include/song_list.html" %}
 
-{% if battle.started %}
+{% if battle.started or battle.finished %}
 <h2>Bitwa &ndash; zawartość posta</h2>
 <h3>Temat</h3>
 <pre>
@@ -35,12 +35,10 @@ Wybierz max. 2 z 4 piosenek:
 {% endblock %}
 
 {% block controls %}
-    {% if battle.finished %}
-    <li>Bitwa jest zakończona, nie są dostępne żadne akcje.</li>
+    {% if not battle.started and not battle.finished %}
+    <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
     {% elif battle.started %}
     <li><a href="{{ url_for('finish_battle_form', battle_id = battle.id) }}">Zakończ bitwę</a></li>
-    {% else %}
-    <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
     {% endif %}
 
     <li><a href="{{ url_for('read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>

@@ -13,6 +13,11 @@ class Song(db.Model):
     song = db.Column(db.String(128), nullable = False)
     link = db.Column(db.String(256))
 
+battle_songs = db.Table('battle_songs',
+    db.Column('battle_id', db.ForeignKey('battle.id'), nullable = False),
+    db.Column('song_id', db.ForeignKey('song.id'), nullable = False)
+)
+
 class Battle(db.Model):
     __table_args__ = {'sqlite_autoincrement': True}
 
@@ -23,27 +28,15 @@ class Battle(db.Model):
         ', '.join(map(str, [__NOT_STARTED, __STARTED, __FINISHED])))
 
     id = db.Column(db.Integer, primary_key = True, nullable = False)
-    song1_id = db.Column(db.ForeignKey('song.id'), nullable = False)
-    song2_id = db.Column(db.ForeignKey('song.id'), nullable = False)
-    song3_id = db.Column(db.ForeignKey('song.id'), nullable = False)
-    song4_id = db.Column(db.ForeignKey('song.id'), nullable = False)
     phase_id = db.Column(db.ForeignKey('phase.id'), nullable = False)
-
     state = db.Column(db.Integer, \
                       db.CheckConstraint(__CHECK_CONDITION), \
                       nullable = False, default = __NOT_STARTED)
     start_date = db.Column(db.Date)
 
-    song1 = db.relationship('Song', foreign_keys = song1_id)
-    song2 = db.relationship('Song', foreign_keys = song2_id)
-    song3 = db.relationship('Song', foreign_keys = song3_id)
-    song4 = db.relationship('Song', foreign_keys = song4_id)
+    songs = db.relationship('Song', secondary = battle_songs)
     phase = db.relationship('Phase', foreign_keys = phase_id, \
                             backref = db.backref('battles'))
-
-    @property
-    def songs(self):
-        return [self.song1, self.song2, self.song3, self.song4]
 
     @property
     def started(self):
@@ -65,8 +58,8 @@ class Battle(db.Model):
         self.state = self.__FINISHED
 
 phase_songs = db.Table('phase_songs',
-    db.Column('song_id', db.ForeignKey('song.id'), nullable = False),
-    db.Column('phase_id', db.ForeignKey('phase.id'), nullable = False)
+    db.Column('phase_id', db.ForeignKey('phase.id'), nullable = False),
+    db.Column('song_id', db.ForeignKey('song.id'), nullable = False)
 )
 
 class Phase(db.Model):
