@@ -4,6 +4,9 @@ def create_app(config):
     app = Flask('muzyczne-bitwy')
     app.config.from_pyfile(config)
 
+    from application.auth import auth
+    auth.init_app(app)
+
     from application.database import db
     db.init_app(app)
 
