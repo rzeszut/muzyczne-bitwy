@@ -27,13 +27,13 @@
             Nierozpoczęta
             {% endif %}
         </td>
-        <td>[<a href="{{ url_for('read_battle', battle_id = battle.id) }}">Pokaż</a>]</td>
+        <td>[<a href="{{ url_for('battles.read_battle', battle_id = battle.id) }}">Pokaż</a>]</td>
     </tr>
     {% else %}
     <tr>
         <td colspan="3">
             Nie istnieją jeszcze bitwy dla tej fazy.
-            <a href="{{ url_for('create_phase_battles', phase_id = phase.id) }}">Wylosuj bitwy</a>.
+            <a href="{{ url_for('phases.create_phase_battles', phase_id = phase.id) }}">Wylosuj bitwy</a>.
         </td>
     </tr>
     {% endfor %}
@@ -41,5 +41,5 @@
 {% endblock %}
 
 {% block controls %}
-    <li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Powrót</a></li>
+    <li><a href="{{ url_for('phases.read_phase', phase_id = phase.id) }}">Powrót</a></li>
 {% endblock %}

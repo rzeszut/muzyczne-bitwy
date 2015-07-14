@@ -4,7 +4,7 @@
 {% block title %}Zakończ bitwę {{ battle.id }}{% endblock %}
 
 {% block content %}
-<form action="{{ url_for('finish_battle', battle_id = battle.id)}}" method="post" accept-charset="utf-8" class="form-horizontal">
+<form action="{{ url_for('battles.finish_battle', battle_id = battle.id)}}" method="post" accept-charset="utf-8" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label" for="winners">Ilość zwycięzców:</label>
         <div class="col-md-10">
@@ -36,5 +36,5 @@
 {% endblock %}
 
 {% block controls %}
-    <li><a href="{{ url_for('read_battle', battle_id = battle.id) }}">Powrót</a></li>
+    <li><a href="{{ url_for('battles.read_battle', battle_id = battle.id) }}">Powrót</a></li>
 {% endblock %}

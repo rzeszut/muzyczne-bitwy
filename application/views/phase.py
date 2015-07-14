@@ -1,15 +1,16 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 
-from application import app
 from application.database import Song, Phase, Battle, db
 from application.util import shuffled
 
-@app.route('/phases')
+phases = Blueprint('phases', __name__)
+
+@phases.route('/phases')
 def read_phases():
     phases = Phase.query.all()
     return render_template('phase/phases.html', phases = phases)
 
-@app.route('/phase/create')
+@phases.route('/phase/create')
 def create_first_phase():
     phase = Phase()
     phase.songs = Song.query.all()
@@ -18,26 +19,26 @@ def create_first_phase():
     db.session.commit()
 
     flash('Pierwsza faza została utworzona.', 'success')
-    return redirect(url_for('read_phases'))
+    return redirect(url_for('phases.read_phases'))
 
-@app.route('/phase/<int:phase_id>')
+@phases.route('/phase/<int:phase_id>')
 def read_phase(phase_id):
     phase = Phase.query.get(phase_id)
     return render_template('phase/phase.html', phase = phase)
 
-@app.route('/phase/<int:phase_id>/songs')
+@phases.route('/phase/<int:phase_id>/songs')
 def read_phase_songs(phase_id):
     phase_songs = Phase.query.get(phase_id).songs
     return render_template('song/songs.html', songs = phase_songs, \
                            show_controls = False, \
-                           backlink = url_for('read_phase', phase_id = phase_id))
+                           backlink = url_for('phases.read_phase', phase_id = phase_id))
 
-@app.route('/phase/<int:phase_id>/battles')
+@phases.route('/phase/<int:phase_id>/battles')
 def read_phase_battles(phase_id):
     phase = Phase.query.get(phase_id)
     return render_template('phase/battles.html', phase = phase)
 
-@app.route('/phase/<int:phase_id>/battles/create')
+@phases.route('/phase/<int:phase_id>/battles/create')
 def create_phase_battles(phase_id):
     phase = Phase.query.get(phase_id)
 
@@ -52,7 +53,7 @@ def create_phase_battles(phase_id):
     db.session.commit()
 
     flash('Bitwy dla fazy {} zostały utworzone.'.format(phase_id), 'success')
-    return redirect(url_for('read_phase_battles', phase_id = phase_id))
+    return redirect(url_for('phases.read_phase_battles', phase_id = phase_id))
 
 def partition(l, n):
     for i in xrange(0, len(l), n):

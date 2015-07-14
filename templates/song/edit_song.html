@@ -3,7 +3,7 @@
 {% block title %}Edytuj piosenkę {{ song.artist }} &ndash; {{ song.song }}{% endblock %}
 
 {% block content %}
-<form action="{{ url_for('update_song', song_id = song.id) }}" method="post" accept-charset="utf-8" class="form-horizontal">
+<form action="{{ url_for('songs.update_song', song_id = song.id) }}" method="post" accept-charset="utf-8" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label" for="id">Id:</label>
         <div class="col-md-10">
@@ -38,6 +38,6 @@
 {% endblock %}
 
 {% block controls %}
-    <li><a href="{{ url_for('read_songs') }}">Wszystkie piosenki</a></li>
+    <li><a href="{{ url_for('songs.read_songs') }}">Wszystkie piosenki</a></li>
 {% endblock %}
 

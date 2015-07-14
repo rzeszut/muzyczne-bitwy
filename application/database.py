@@ -1,9 +1,7 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import date, timedelta
 
-from application import app
-
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 class Song(db.Model):
     __table_args__ = {'sqlite_autoincrement': True}

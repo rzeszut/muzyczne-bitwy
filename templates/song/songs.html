@@ -8,7 +8,7 @@
 
 {% block controls %}
 {% if show_controls %}
-    <li><a href="{{ url_for('create_song_form') }}">Dodaj piosenkę</a></li>
+    <li><a href="{{ url_for('songs.create_song_form') }}">Dodaj piosenkę</a></li>
 {% endif %}
 {% if backlink %}
     <li><a href="{{ backlink }}">Powrót</a></li>

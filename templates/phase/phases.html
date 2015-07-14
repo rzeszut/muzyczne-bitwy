@@ -6,14 +6,14 @@
 {% if not phases %}
 <p>
     Nie istnieje jeszcze żadna faza.
-    <a href="{{ url_for('create_first_phase') }}">Utwórz pierwszą fazę.</a>
+    <a href="{{ url_for('phases.create_first_phase') }}">Utwórz pierwszą fazę.</a>
 </p>
 {% endif %}
 {% endblock %}
 
 {% block controls %}
 {% for phase in phases %}
-<li><a href="{{ url_for('read_phase', phase_id = phase.id) }}">Faza {{ phase.id }}</a></li>
+<li><a href="{{ url_for('phases.read_phase', phase_id = phase.id) }}">Faza {{ phase.id }}</a></li>
 {% endfor %}
-<li><a href="{{ url_for('index') }}">Powrót</a></li>
+<li><a href="{{ url_for('index.home') }}">Powrót</a></li>
 {% endblock %}

@@ -1,3 +1,6 @@
+import os
+
 DEBUG = True
-SECRET_KEY = 'not really a secret'
+SECRET_KEY = os.urandom(24)
 SQLALCHEMY_DATABASE_URI = 'sqlite:///mb15.db'
+

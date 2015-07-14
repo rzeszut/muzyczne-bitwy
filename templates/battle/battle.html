@@ -36,11 +36,11 @@ Wybierz max. 2 z 4 piosenek:
 
 {% block controls %}
     {% if not battle.started and not battle.finished %}
-    <li><a href="{{ url_for('start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
+    <li><a href="{{ url_for('battles.start_battle', battle_id = battle.id) }}">Rozpocznij bitwę</a></li>
     {% elif battle.started %}
-    <li><a href="{{ url_for('finish_battle_form', battle_id = battle.id) }}">Zakończ bitwę</a></li>
+    <li><a href="{{ url_for('battles.finish_battle_form', battle_id = battle.id) }}">Zakończ bitwę</a></li>
     {% endif %}
 
-    <li><a href="{{ url_for('read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>
+    <li><a href="{{ url_for('phases.read_phase_battles', phase_id = battle.phase_id) }}">Powrót</a></li>
 {% endblock %}
 
