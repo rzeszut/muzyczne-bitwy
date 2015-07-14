@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request, flash
-import random
 
 from application import app
 from application.database import Song, Phase, Battle, db
+from application.util import shuffled
 
 @app.route('/phases')
 def read_phases():
@@ -41,7 +41,7 @@ def read_phase_battles(phase_id):
 def create_phase_battles(phase_id):
     phase = Phase.query.get(phase_id)
 
-    songs = random.shuffle(list(phase.songs))
+    songs = shuffled(phase.songs)
     for battle_songs in partition(songs, 4):
         if len(battle_songs) == 4:
             create_battle(phase, battle_songs)

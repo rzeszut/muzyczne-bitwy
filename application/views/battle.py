@@ -1,7 +1,9 @@
 from flask import render_template, redirect, url_for, request, abort, flash
+from operator import itemgetter
 
 from application import app
 from application.database import Song, Battle, db
+from application.util import shuffled
 
 @app.route('/battle/<int:battle_id>')
 def read_battle(battle_id):
@@ -26,10 +28,13 @@ def finish_battle_form(battle_id):
 
 @app.route('/battle/<int:battle_id>/finish', methods = ['POST'])
 def finish_battle(battle_id):
-    winner_song_ids = request.form.getlist('songs')
-    if len(winner_song_ids) != 2:
-        flash('Wybierz 2 piosenki.', 'danger')
-        return redirect(url_for('finish_battle_form', battle_id = battle_id))
+    winners_count = int(request.form['winners'])
+    song_ids = request.form.getlist('songs')
+    song_points = request.form.getlist('points')
+
+    songs = sorted(shuffled(zip(song_ids, song_points)), \
+                   key = itemgetter(1), reverse = True)
+    winner_song_ids = list(map(songs[:winners_count], itemgetter(0)))
 
     battle = Battle.query.get(battle_id)
     battle.finish()

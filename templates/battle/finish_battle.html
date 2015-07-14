@@ -6,15 +6,26 @@
 {% block content %}
 <form action="{{ url_for('finish_battle', battle_id = battle.id)}}" method="post" accept-charset="utf-8" class="form-horizontal">
     <div class="form-group">
-        <label class="col-md-2 control-label" for="songs">Wybierz 2 piosenki:</label>
+        <label class="col-md-2 control-label" for="winners">Ilość zwycięzców:</label>
         <div class="col-md-10">
-            <select class="form-control" name="songs" id="songs" multiple>
-                {% for song in battle.songs %}
-                <option value="{{ song.id }}">{{ macros.render_song(song, with_number = True) }}</option>
-                {% endfor %}
-            </select>
+            <div class="radio">
+                <label><input type="radio" name="winners" value="1">1</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="winners" value="2" checked>2</label>
+            </div>
         </div>
     </div>
+
+    {% for song in battle.songs %}
+    <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+            <span class="help-block">{{ song.artist }} &ndash; {{ song.song }}</span>
+            <input type="hidden" name="songs" value="{{ song.id }}">
+            <input type="text" name="points" value="0" class="form-control">
+        </div>
+    </div>
+    {% endfor %}
 
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">

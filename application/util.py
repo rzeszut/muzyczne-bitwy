@@ -1,4 +1,5 @@
 import rome
+from random import shuffle
 
 from application import app
 
@@ -10,4 +11,9 @@ def jinja2_utilities():
     return {
         'format_date': format_date
     }
+
+def shuffled(lst):
+    l = list(lst)
+    shuffle(l)
+    return l
 
