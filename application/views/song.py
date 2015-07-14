@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 
-from application.database import Song, db
+from application.database import Song, db, transactional
 
 songs = Blueprint('songs', __name__)
 
@@ -15,15 +15,14 @@ def read_song(song_id):
     song = Song.query.get(song_id)
     return render_template('song/edit_song.html', song = song)
 
+@transactional
 @songs.route('/song/<int:song_id>', methods = ['POST'])
 def update_song(song_id):
     song = Song.query.get(song_id)
     song.artist = request.form['artist']
     song.song = request.form['song']
     song.link = empty_to_none(request.form['link'])
-
     db.session.add(song)
-    db.session.commit()
 
     flash('Piosenka została zapisana.', 'success')
     return redirect(url_for('songs.read_songs'))
@@ -35,13 +34,13 @@ def empty_to_none(s):
 def create_song_form():
     return render_template('song/new_song.html')
 
+@transactional
 @songs.route('/song', methods = ['POST'])
 def create_song():
     song = Song(artist = request.form['artist'], \
                 song = request.form['song'], \
                 link = request.form['link'])
     db.session.add(song)
-    db.session.commit()
 
     flash('Piosenka została utworzona.', 'success')
     return redirect(url_for('songs.read_songs'))

@@ -1,7 +1,22 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import date, timedelta
+from functools import wraps
 
 db = SQLAlchemy()
+
+def transactional(f):
+    @wraps(f)
+    def call_in_transaction(*args, **kwargs):
+        db.session.begin(subtransactions = True)
+        try:
+            ret = f(*args, **kwargs)
+            db.session.commit()
+            return ret
+        except:
+            db.session.rollback()
+            raise
+
+    return call_in_transaction
 
 class Song(db.Model):
     __table_args__ = {'sqlite_autoincrement': True}
