@@ -9,6 +9,8 @@
 {% block controls %}
 {% if show_controls %}
     <li><a href="{{ url_for('songs.create_song_form') }}">Dodaj piosenkę</a></li>
+    <li><a href="{{ url_for('songs.import_songs_csv_form') }}">Zaimportuj plik CSV</a></li>
+    <li><a href="{{ url_for('songs.export_songs_bbcode') }}">Eksportuj do BBCode</a></li>
 {% endif %}
 {% if backlink %}
     <li><a href="{{ backlink }}">Powrót</a></li>

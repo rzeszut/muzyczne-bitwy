@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Zaimportuj plik CSV z listą piosenek{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('songs.import_songs_csv') }}" method="post" accept-charset="utf-8" class="form-horizontal" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="csv">Plik CSV:</label>
+        <div class="col-md-10">
+            <input class="form-control" type="file" name="csv" value="" id="csv">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            <input class="btn btn-default" type="submit" value="Zaimportuj">
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block controls %}
+    <li><a href="{{ url_for('songs.read_songs') }}">Powrót</a></li>
+{% endblock %}
+

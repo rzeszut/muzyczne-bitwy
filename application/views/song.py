@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+import csv
+import io
+from flask import Blueprint, render_template, redirect, url_for, request, flash,\
+    make_response
 
 from application.database import Song, db, transactional
 
@@ -44,4 +47,32 @@ def create_song():
 
     flash('Piosenka została utworzona.', 'success')
     return redirect(url_for('songs.read_songs'))
+
+@songs.route('/songs/import-csv', methods = ['GET'])
+def import_songs_csv_form():
+    return render_template('song/import_csv.html')
+
+@songs.route('/songs/import-csv', methods = ['POST'])
+@transactional
+def import_songs_csv():
+    csv_file = request.files['csv']
+    # TODO: validate file
+    csv_contents = csv_file.stream.read().decode('utf-8')
+    csv_reader = csv.DictReader(io.StringIO(csv_contents))
+    for row in csv_reader:
+        print(row)
+        song = Song(artist = row['artist'],\
+                    song = row['song'],\
+                    link = row['link'])
+        db.session.add(song)
+
+    flash('Plik {} został zaimportowany.'.format(csv_file.filename), 'success')
+    return redirect(url_for('songs.read_songs'))
+
+@songs.route('/songs/export-bbcode')
+def export_songs_bbcode():
+    songs = Song.query.all()
+    res = make_response(render_template('song/songs_bbcode.txt', songs=songs))
+    res.mimetype = 'text/plain'
+    return res
 

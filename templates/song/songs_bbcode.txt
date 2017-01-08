@@ -1,0 +1,4 @@
+{% import "macros.html" as macros %}
+{% for song in songs %}
+{{ macros.render_song(song, with_number = True, with_link = True, dont_escape = True) }}
+{%- endfor %}
