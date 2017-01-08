@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Bitwa {{ battle.id }} zakończona{% endblock %}
+
+{% block content %}
+<pre>
+Bitwę wygrały piosenki:
+[list]
+{%- for song in winner_songs %}
+[*]{{ song.artist }} - {{ song.song }}
+{%- endfor %}
+[/list]
+</pre>
+{% endblock %}
+
+{% block controls %}
+    <li><a href="{{ url_for('battles.read_battle', battle_id = battle.id) }}">Powrót do bitwy</a></li>
+    <li><a href="{{ url_for('phases.read_phase_battles', phase_id = battle.phase_id) }}">Powrót do listy bitew</a></li>
+{% endblock %}

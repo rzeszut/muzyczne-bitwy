@@ -55,7 +55,7 @@ def create_phase_battles(phase_id):
     return redirect(url_for('phases.read_phase_battles', phase_id = phase_id))
 
 def partition(l, n):
-    for i in xrange(0, len(l), n):
+    for i in range(0, len(l), n):
         yield l[i : i + n]
 
 def create_battle(phase, songs):

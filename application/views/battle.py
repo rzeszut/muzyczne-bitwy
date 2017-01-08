@@ -47,5 +47,6 @@ def finish_battle(battle_id):
     db.session.add(next_phase)
 
     flash('Bitwa została zakończona.', 'success')
-    return redirect(url_for('battles.read_battle', battle_id = battle_id))
+    return render_template('battle/finished_battle.html', battle = battle, \
+                           winner_songs = winner_songs)
 
